@@ -1,27 +1,24 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Icon from "@/components/ui/icon"
 
-const testimonials = [
+const roles = [
   {
-    name: "Елена Родригес",
-    role: "Директор по нейронауке, Quantum Dynamics",
-    avatar: "/professional-woman-scientist.png",
+    icon: "Briefcase",
+    role: "Собственнику",
     content:
-      "SynapseAI изменил наш подход к нейрореабилитации. Результаты пациентов улучшились на 340% после внедрения.",
+      "Карта бизнеса и риск в деньгах: «риск на 18 млн руб. с вероятностью 23%». Стратегический план — что закрыть за 30 дней, квартал и год.",
   },
   {
-    name: "Маркус Уильямс",
-    role: "Руководитель исследований, Stellar Analytics",
-    avatar: "/cybersecurity-expert-man.jpg",
+    icon: "Code2",
+    role: "CTO",
     content:
-      "Точность и протоколы безопасности не имеют аналогов. Мы значительно ускорили клинические испытания с платформой SynapseAI.",
+      "Реестр всех активов, API-эндпоинтов и зависимостей, threat-модель под архитектуру и технический roadmap с конкретными мерами.",
   },
   {
-    name: "Анна Ковальски",
-    role: "Вице-президент по разработке, Nova Industries",
-    avatar: "/asian-woman-tech-developer.jpg",
+    icon: "ShieldCheck",
+    role: "CISO",
     content:
-      "Интеграция прошла безупречно. Адаптивные алгоритмы понимают намерения пользователя лучше любой системы, что мы тестировали.",
+      "DRL-матрица с приоритизацией по вектору атаки, аргументация для бюджетных запросов и аудиторское заключение для регулятора.",
   },
 ]
 
@@ -30,32 +27,23 @@ export function TestimonialsSection() {
     <section className="py-24 px-6 bg-card">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-card-foreground mb-4 font-sans">Нам доверяют лидеры</h2>
+          <h2 className="text-4xl font-bold text-card-foreground mb-4 font-sans">Результат для каждой роли</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Что говорят лидеры индустрии о нашей революционной технологии
+            Один аудит — три уровня ценности. Каждый получает то, что нужно ему для решений.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
+          {roles.map((item, index) => (
             <Card key={index} className="glow-border slide-up" style={{ animationDelay: `${index * 0.15}s` }}>
               <CardContent className="p-6">
-                <p className="text-card-foreground mb-6 leading-relaxed italic">"{testimonial.content}"</p>
-                <div className="flex items-center gap-4">
-                  <Avatar>
-                    <AvatarImage src={testimonial.avatar || "/placeholder.svg"} alt={testimonial.name} />
-                    <AvatarFallback>
-                      {testimonial.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-semibold text-primary">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                  </div>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="w-11 h-11 rounded-lg bg-primary/15 text-primary flex items-center justify-center">
+                    <Icon name={item.icon} size={24} />
+                  </span>
+                  <p className="font-semibold text-lg text-primary">{item.role}</p>
                 </div>
+                <p className="text-card-foreground leading-relaxed">{item.content}</p>
               </CardContent>
             </Card>
           ))}
