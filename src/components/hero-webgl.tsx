@@ -1,7 +1,22 @@
 import { Canvas, extend, useFrame } from "@react-three/fiber"
 import { useAspect, useTexture } from "@react-three/drei"
-import { useMemo, useRef, useState, useEffect } from "react"
+import { useMemo, useRef, useState, useEffect, Suspense, Component, ReactNode } from "react"
 import * as THREE from "three"
+
+class WebGLBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { hasError: boolean }> {
+  state = { hasError: false }
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+  render() {
+    if (this.state.hasError) return this.props.fallback
+    return this.props.children
+  }
+}
+
+const HeroFallback = () => (
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(211,47,47,0.18),transparent_60%),radial-gradient(circle_at_70%_70%,rgba(45,127,249,0.15),transparent_55%)] bg-black" />
+)
 
 const TEXTUREMAP = { src: "https://i.postimg.cc/XYwvXN8D/img-4.png" }
 const DEPTHMAP = { src: "https://i.postimg.cc/2SHKQh2q/raw-4.webp" }
@@ -175,18 +190,22 @@ export const Hero3DWebGL = () => {
         </div>
       </div>
 
-      <Canvas
-        flat
-        gl={{
-          antialias: true,
-          alpha: false,
-          powerPreference: "high-performance",
-        }}
-        camera={{ position: [0, 0, 1] }}
-        style={{ background: "#000000" }}
-      >
-        <Scene />
-      </Canvas>
+      <WebGLBoundary fallback={<HeroFallback />}>
+        <Canvas
+          flat
+          gl={{
+            antialias: true,
+            alpha: false,
+            powerPreference: "high-performance",
+          }}
+          camera={{ position: [0, 0, 1] }}
+          style={{ background: "#000000" }}
+        >
+          <Suspense fallback={null}>
+            <Scene />
+          </Suspense>
+        </Canvas>
+      </WebGLBoundary>
     </div>
   )
 }
